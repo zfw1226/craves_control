@@ -1,11 +1,11 @@
 # Introduction
 
-This repository is the control module of [CRAVES](http://unrealcv.org/). 
+This repository is the control module of [CRAVES](http://craves.ai/). 
 This repository contains hardware drivers, pose estimator, a PID-like controller, and a RL-based controller.  
 
 ## Hardware Requirement:
-- USB Camera(Logitech C920)
-- Robotic Arm(OWI-535)
+- USB Camera (Logitech C920)
+- Robotic Arm (OWI-535)
 
 ## Software Requirement:
 - Python>=2.7
@@ -17,14 +17,15 @@ This repository contains hardware drivers, pose estimator, a PID-like controller
 
 It is easy to install craves_control, just run
 ```buildoutcfg
-git clone https:https://github.com/zfw1226/craves_control.git
+git clone https://github.com/zfw1226/craves_control.git
 cd craves_control
 pip install -e . 
 ```
 
-Note that if you want to train a new RL agent in virtual environment, ｐlease install [Gym-UnrealCV](https://github.com/zfw1226/gym-unrealcv).
+Note that if you want to train a new RL agent in virtual environment, please install [Gym-UnrealCV](https://github.com/zfw1226/gym-unrealcv).
 
 # Usage
+
 ## Running A Simple Demo
 Firstly, please place the camera to a position viewing the arm.
 After that run the following command:
