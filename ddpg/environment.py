@@ -9,10 +9,10 @@ import distutils.version
 
 def create_env(env_id, args):
     if 'RealArm' in env_id:
-        from realarm import arm_reach
+        from craves_control import arm_reach
         env = arm_reach.Arm_Reach()
     elif 'DemoArm' in env_id:
-        from realarm import arm_env
+        from craves_control import arm_env
         env = arm_env.Arm_Reach()
     else:
         if 'Unreal' in env_id:
