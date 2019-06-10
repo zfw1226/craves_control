@@ -10,7 +10,7 @@ This repository contains hardware drivers, pose estimator, a PID-like controller
 
 ## Software Requirement:
 
-- Python>=2.7, Gym, CV2, Matplotlib, Numpy, Pytorch
+- Python>=2.7, Gym, CV2, Matplotlib, Numpy, Pytorch, Pyusb
 
 It is easy to install craves_control, just run
 ```buildoutcfg
@@ -19,7 +19,17 @@ cd craves_control
 pip install -e . 
 ```
 
-Note that if you want to train a new RL agent in virtual environment, please install [Gym-UnrealCV](https://github.com/zfw1226/gym-unrealcv).
+### Modify Permission in Linux
+If your OS is Linux, you need modify your system to allow all users access to the arm via usb, 
+just copy the file `42-usb-arm-permissions.rules` to `/etc/udev/rules.d`, running as:
+
+```bash
+sudo cp 42-usb-arm-permissions.rules /etc/udev/rules.d/42-usb-arm-permissions.rules
+```
+
+### Virtual Environment
+If you want to train/evaluate a new RL agent in virtual environment, 
+please install [Gym-UnrealCV](https://github.com/zfw1226/gym-unrealcv).
 
 # Usage
 
@@ -45,3 +55,7 @@ and then reach a set of points one by one, as:
 
 It is also robust to different viewpoint, as:
 ![reach2](./figs/reach2.gif)
+
+
+## Related Work
+- Python Code to drive the Maplin/OWI USB Robot arm: https://github.com/eoinwoods/robot_arm
