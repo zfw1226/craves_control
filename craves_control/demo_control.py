@@ -18,11 +18,11 @@ parser = argparse.ArgumentParser(description='Demo')
 parser.add_argument('--model-dir', default='real.pth.tar', metavar='MD', help='path to saved models')
 parser.add_argument('--raw', dest='raw', action='store_true', help='visualize raw image')
 parser.add_argument('--kp', dest='kp', action='store_true', help='visualize image with keypoints')
-parser.add_argument('--goal', type=int, default=[0, 0, 0, 0], nargs='+', help='expected pose')
+parser.add_argument('--pose', type=int, default=[0, 0, 0, 0], nargs='+', help='expected pose')
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    assert len(args.goal) == 4
+    assert len(args.pose) == 4
 
     Cam = camCapture(0)  # init camera
     Cam.start()  # start camera
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     arm_ctl = usb_arm.Arm()  # inti arm controller
 
     # set your expected target pose
-    target_pose = args.goal
+    target_pose = args.pose
     time.sleep(1)
 
     mask = np.array([1, 1, 1, 1])
