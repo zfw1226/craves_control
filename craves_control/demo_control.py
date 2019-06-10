@@ -2,7 +2,7 @@ import cv2
 from pose_estimator import PoseEstimater
 from hardware.usb_cam import video_capture, camCapture
 import numpy as np
-from realarm.hardware import usb_arm
+from hardware import usb_arm
 import time
 import argparse
 """  A simple demo for moving the arm to a target pose  
