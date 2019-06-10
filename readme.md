@@ -4,16 +4,13 @@ This repository is the control module of [CRAVES](http://craves.ai/).
 This repository contains hardware drivers, pose estimator, a PID-like controller, and a RL-based controller.  
 
 ## Hardware Requirement:
+
 - USB Camera (Logitech C920)
 - Robotic Arm (OWI-535)
 
 ## Software Requirement:
-- Python>=2.7
-- Gym
-- CV2
-- Matplotlib
-- Numpy
-- Pytorch
+
+- Python>=2.7, Gym, CV2, Matplotlib, Numpy, Pytorch
 
 It is easy to install craves_control, just run
 ```buildoutcfg
