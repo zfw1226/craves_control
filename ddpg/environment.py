@@ -11,9 +11,6 @@ def create_env(env_id, args):
     if 'RealArm' in env_id:
         from craves_control import arm_reach
         env = arm_reach.Arm_Reach()
-    elif 'DemoArm' in env_id:
-        from craves_control import arm_env
-        env = arm_env.Arm_Reach()
     else:
         if 'Unreal' in env_id:
             import gym_unrealcv
@@ -126,6 +123,7 @@ class NormalizedEnv(gym.ObservationWrapper):
         unbiased_mean = self.state_mean / (1 - pow(self.alpha, self.num_steps))
         unbiased_std = self.state_std / (1 - pow(self.alpha, self.num_steps))
         return (observation - unbiased_mean) / (unbiased_std + 1e-8)
+
 
 class frame_stack(gym.Wrapper):
     def __init__(self, env, args):
