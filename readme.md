@@ -13,7 +13,7 @@ This repository contains hardware drivers, pose estimator, a PID-like controller
 - Python>=2.7, Gym, CV2, Matplotlib, Numpy, Pytorch, Pyusb
 
 It is easy to install craves_control, just run
-```buildoutcfg
+```bash
 git clone https://github.com/zfw1226/craves_control.git
 cd craves_control
 pip install -e . 
@@ -63,6 +63,19 @@ and then reach a set of points one by one, as:
 It is also robust to different viewpoint, as:
 ![reach2](./figs/reach2.gif)
 
+## Citation
+If you found CRAVES useful, please consider citing:
+```bibtex
+@article{zuo2019craves,
+  title={CRAVES: Controlling Robotic Arm with a Vision-based, Economic System},
+  author={Zuo, Yiming and Qiu, Weichao and Xie, Lingxi and Zhong, Fangwei and Wang, Yizhou and Yuille, Alan L},
+  journal={CVPR},
+  year={2019}
+}
+```
 
 ## Related Work
-- Python Code to drive the Maplin/OWI USB Robot arm: https://github.com/eoinwoods/robot_arm
+- Maplin/OWI USB Robot Arm Driver: https://github.com/eoinwoods/robot_arm
+- Gym-UnrealCV: https://github.com/zfw1226/gym-unrealcv.git
+- UnrealCV: https://github.com/unrealcv/unrealcv.git
+- CRAVES: https://github.com/zuoym15/craves.ai.git
