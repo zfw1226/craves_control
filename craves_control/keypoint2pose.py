@@ -190,7 +190,6 @@ def estimate(x0, cam, ang, uv, estimate_cam, estimate_intrinsic, Reprojection, v
 
     _ = Opt(res.x, num_joints, A, ang, cam, c, d, uv, meta, estimate_cam, estimate_intrinsic,
             Reprojection)  # Get the reprojection result of the full keypoint list
-
     return res, Reprojection, avg_error
 
 
@@ -286,7 +285,6 @@ def d2tod3(d2_key, meta, cam_intristic=None, cam_info=None, estimate_cam=True, e
         hit = False
 
         uv, score, cam, ang, heatmap = get_pred(d2_key, cam_info)
-
         valid_keypoint_list = []
         for j in range(uv.shape[1]):
             if score[j] > score_th and j in keypoint_list:
@@ -321,24 +319,22 @@ def d2tod3(d2_key, meta, cam_intristic=None, cam_info=None, estimate_cam=True, e
                     min_error = avg_error
                     x = res.x
                     break
-
         x_deg = x.copy()
         x_deg[0:7] = x[0:7] * 180 / pi
         x_deg[0] = x_deg[0] + 90
         x_deg[1] = x_deg[1] - 90
         x_deg[3] = x_deg[3] - x_deg[2]
         x_deg[2] = x_deg[2] - x_deg[1]
-        while np.max(x_deg) > 180:
-            x_deg[np.where(x_deg > 180)] -= 360
-        while np.min(x_deg) < -180:
-            x_deg[np.where(x_deg < -180)] += 360
+        while np.max(x_deg[:7]) > 180:
+            x_deg[np.where(x_deg[:7] > 180)] -= 360
+        while np.min(x_deg[:7]) < -180:
+            x_deg[np.where(x_deg[:7] < -180)] += 360
         # print('{}:{}, error:{}'.format(i + 1, hit, min_error))
         if min_error > error_thres or min_error == -1:
             good = False
         else:
             good = True
-
-    return x_deg[:4], x, good
+    return x_deg, x, good
 
 
 if __name__ == "__main__":

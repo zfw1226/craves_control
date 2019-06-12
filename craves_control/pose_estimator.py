@@ -83,7 +83,8 @@ class PoseEstimater:
             else:
                 pose_deg, pose_rad, good = d2tod3(keypoints, self.meta, self.camera_intrinstic,
                                                   init=None)
-
+            cam_pose_deg = pose_deg[-6:]
+            pose_deg = pose_deg[:4]
             if len(self.pose_history) > 1:
                 if not self.check_continue(pose_deg):
                     good = False
