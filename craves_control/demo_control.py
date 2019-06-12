@@ -5,6 +5,7 @@ import numpy as np
 from hardware import usb_arm
 import time
 import argparse
+from aruco_tracker import track_aruco
 """  A simple demo for moving the arm to a target pose  
     Reference pose:
     [0,  0,  0,  0] # init
@@ -18,6 +19,7 @@ parser = argparse.ArgumentParser(description='Demo')
 parser.add_argument('--model-dir', default='real.pth.tar', metavar='MD', help='path to saved models')
 parser.add_argument('--raw', dest='raw', action='store_true', help='visualize raw image')
 parser.add_argument('--kp', dest='kp', action='store_true', help='visualize image with keypoints')
+parser.add_argument('--ar', dest='artag', action='store_true', help='track aruco tag')
 parser.add_argument('--pose', type=int, default=[0, 0, 0, 0], nargs='+', help='expected pose')
 
 if __name__ == '__main__':
@@ -43,6 +45,8 @@ if __name__ == '__main__':
         img = Cam.getframe()
         img_rgb = np.array(img[..., ::-1])
         pose, good = PE.pred(img_rgb, plot_raw=args.raw, plot_kp=args.kp)
+        if args.artag:
+            rvec, tvec = track_aruco(img.copy())
         if good:
             error = target_pose - pose
             mask[np.where(np.abs(error) < 2)] = 0  # direction changed, stop control
