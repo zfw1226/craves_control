@@ -181,7 +181,7 @@ class PoseEstimater:
         return absdir
 
 
-def test_video():
+def test_dataset():
     PE = PoseEstimater(cam_type='video')
     folder = 'test_seq'
     imgs_name = os.listdir(folder)
@@ -191,6 +191,18 @@ def test_video():
         im = cv2.imread(dir)
         im = np.array(im[..., ::-1])
         pose = PE.pred(im, plot_raw=False, plot_kp=True)
+        print(pose)
+
+
+def test_video():
+    from hardware.usb_cam import video_capture, camCapture
+    PE = PoseEstimater(cam_type='video')
+    Cam = camCapture(0)  # init camera
+    Cam.start()  # start camera
+    while True:
+        img = Cam.getframe()
+        img_rgb = np.array(img[..., ::-1])
+        pose = PE.pred(img_rgb, plot_raw=False, plot_kp=True)
         print(pose)
 
 
