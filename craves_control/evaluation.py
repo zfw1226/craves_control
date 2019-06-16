@@ -1,8 +1,14 @@
 from __future__ import absolute_import
 
-from craves_control.misc import *
-from craves_control.transforms import transform_preds
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+from random import randint
+import torch
+
+from misc import *
+from transforms import transform, transform_preds
+
 __all__ = ['accuracy', 'AverageMeter']
 
 
@@ -33,7 +39,7 @@ def calc_dists(preds, target, normalize):
     for n in range(preds.size(0)):
         for c in range(preds.size(1)):
             if target[n, c, 0] > 1 and target[n, c, 1] > 1:
-                dists[c, n] = torch.dist(preds[n, c, :], target[n, c, :])/normalize[n]
+                dists[c, n] = torch.dist(preds[n, c, :], target[n, c, :]) / normalize[n]
             else:
                 dists[c, n] = -1
     return dists
@@ -53,17 +59,17 @@ def accuracy(output, target, idxs, thr=0.5):
     '''
     preds = get_preds(output)
     gts = get_preds(target)
-    norm = torch.ones(preds.size(0))*output.size(3)/10
+    norm = torch.ones(preds.size(0)) * output.size(3) / 4.0
     dists = calc_dists(preds, gts, norm)
 
-    acc = torch.zeros(len(idxs)+1)
+    acc = torch.zeros(len(idxs) + 1)
     avg_acc = 0
     cnt = 0
 
     for i in range(len(idxs)):
-        acc[i+1] = dist_acc(dists[idxs[i]-1])
-        if acc[i+1] >= 0:
-            avg_acc = avg_acc + acc[i+1]
+        acc[i + 1] = dist_acc(dists[idxs[i] - 1], thr=thr)
+        if acc[i + 1] >= 0:
+            avg_acc = avg_acc + acc[i + 1]
             cnt += 1
 
     if cnt != 0:
@@ -94,9 +100,11 @@ def final_preds(output, center, scale, res):
             px = int(math.floor(coords[n][p][0]))
             py = int(math.floor(coords[n][p][1]))
             if px > 1 and px < res[0] and py > 1 and py < res[1]:
-                diff = torch.Tensor([hm[py - 1][px] - hm[py - 1][px - 2], hm[py][px - 1]-hm[py - 2][px - 1]])
+                diff = torch.Tensor([hm[py - 1][px] - hm[py - 1][px - 2], hm[py][px - 1] - hm[py - 2][px - 1]])
                 coords[n][p] += diff.sign() * .25
-    coords += 0.5
+    coords[:, :, 0] += 0.5
+    coords[:, :, 1] -= 0.5
+
     preds = coords.clone()
 
     # Transform back
@@ -116,6 +124,7 @@ def d3_acc(preds, gts):
 
     hit = 0
 
+    miss_list = []
     for i in range(num_samples):
         pred = np.array(preds[i])
         gt = np.array(gts[i])
@@ -124,14 +133,14 @@ def d3_acc(preds, gts):
 
         res[0:7] = np.abs((res[0:7] + 180.0) % 360.0 - 180.0)
 
-        if not np.any(res[0:4]>10):  # false prediction
+        if not np.any(res[0:4] > 10):  # false prediction
             acc += res
             hit = hit + 1
 
         else:
-            print(99 - i)
+            miss_list.append(i)
 
-    return acc/hit
+    return (acc / hit)[0:4]
 
 
 class AverageMeter(object):
