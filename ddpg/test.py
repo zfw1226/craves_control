@@ -19,6 +19,8 @@ def test(device, args):
         episode_rewards = []
         episode_lenghts = []
         for _ep in range(1, args.eval_eps):
+            if args.ar:
+                env.seed(True)
             observation = env.reset()
             total_reward = 0
             episode_action = []

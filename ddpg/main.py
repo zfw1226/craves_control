@@ -40,6 +40,7 @@ parser.add_argument('--stack-frames', type=int, default=4, metavar='SF', help='C
 parser.add_argument('--input-size', type=int, default=80, metavar='IS', help='input image size')
 parser.add_argument('--sleep-time', type=int, default=10, metavar='LO', help='seconds')
 parser.add_argument('--test', dest='test', action='store_true', help='only test not train')
+parser.add_argument('--ar', dest='ar', action='store_true', help='use ar pose set target')
 
 if __name__ == '__main__':
     args = parser.parse_args()
