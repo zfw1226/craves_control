@@ -1,7 +1,7 @@
 # Modified by Weichao Qiu @ 2018
 import torch
-from .transforms import fliplr, flip_back, multi_scale_merge
-from .evaluation import accuracy, final_preds, final_preds_bbox, get_preds
+from craves_control.utils.transforms import fliplr, flip_back, multi_scale_merge
+from craves_control.utils.evaluation import accuracy, final_preds, final_preds_bbox, get_preds
 import numpy as np
 
 # Simplify this script

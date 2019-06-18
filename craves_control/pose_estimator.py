@@ -1,12 +1,12 @@
 import torch
 import numpy as np
 import cv2
-from .simple_validate import validate
+from craves_control.utils.simple_validate import validate
 import os, json, time
-from .keypoint2pose import d2tod3
-from .hourglass import hg
-from .img_loader import get_training_image
-from .osutils import Timer
+from craves_control.utils.keypoint2pose import d2tod3
+from craves_control.utils.hourglass import hg
+from craves_control.utils.img_loader import get_training_image
+from craves_control.utils.osutils import Timer
 
 def draw_keypoints(im, keypoints):
     for idx in range(keypoints.shape[1]):

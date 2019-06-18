@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import scipy
-from .transforms import crop, color_normalize
+from craves_control.utils.transforms import crop, color_normalize
 
 
 def to_torch(ndarray):

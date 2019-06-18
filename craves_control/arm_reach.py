@@ -4,11 +4,11 @@ import gym
 import numpy as np
 from gym import spaces
 from .hardware.usb_cam import camCapture
-from .pose_estimator import PoseEstimater
+from craves_control.pose_estimator import PoseEstimater
 from .hardware import usb_arm
 import matplotlib.pyplot as plt
 from numpy import sin, cos, pi
-from .aruco_tracker import get_relative
+from craves_control.utils.aruco_tracker import get_relative
 
 class Arm_Reach(gym.Env):
     def __init__(self,

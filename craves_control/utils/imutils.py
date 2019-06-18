@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import scipy.misc
-from .misc import *
+from craves_control.utils.misc import *
 
 def im_to_numpy(img):
     img = to_numpy(img)

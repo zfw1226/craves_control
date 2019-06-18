@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 from random import randint
 import torch
 
-from .misc import *
-from .transforms import transform, transform_preds
+from craves_control.utils.misc import *
+from craves_control.utils.transforms import transform, transform_preds
 
 __all__ = ['accuracy', 'AverageMeter']
 
