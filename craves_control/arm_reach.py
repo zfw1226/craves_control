@@ -3,12 +3,12 @@ import time
 import gym
 import numpy as np
 from gym import spaces
-from hardware.usb_cam import camCapture
-from pose_estimator import PoseEstimater
-from craves_control.hardware import usb_arm
+from .hardware.usb_cam import camCapture
+from .pose_estimator import PoseEstimater
+from .hardware import usb_arm
 import matplotlib.pyplot as plt
 from numpy import sin, cos, pi
-from craves_control.aruco_tracker import get_relative
+from .aruco_tracker import get_relative
 
 class Arm_Reach(gym.Env):
     def __init__(self,
@@ -103,16 +103,16 @@ class Arm_Reach(gym.Env):
         self.PE.reset()
         self.count_steps = 0
         if self.auto:
-            self.target_pose = [self.yaws[self.count_eps/3 % 3],
-                                self.length[self.count_eps % 3],
-                                self.heights[self.count_eps % 3]]
+            self.target_pose = [self.yaws[int(self.count_eps/3 % 3)],
+                                self.length[int(self.count_eps % 3)],
+                                self.heights[int(self.count_eps % 3)]]
         else:
             xyz_goal = None
             while xyz_goal == None:
                 img = self.cam.getframe()
                 xyz_goal = get_relative(img)
-            print(xyz_goal)
-            xyz_goal = [xyz_goal[0]*1000, xyz_goal[1]*1000-225, 50]
+            xyz_goal = [xyz_goal[2]*1000, xyz_goal[1]*1000-225, 50]
+            # xyz_goal = [-xyz_goal[1]*1000, xyz_goal[0]*1000-220, 20]
             self.target_pose = self.xyz2trz(xyz_goal)
         self.target_location = self.trz2xyz(self.target_pose)
         print('Start with target pose: ', str(self.target_pose), 'Target: ', str(self.target_location))

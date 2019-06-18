@@ -1,12 +1,12 @@
 import torch
 import numpy as np
 import cv2
-from simple_validate import validate
+from .simple_validate import validate
 import os, json, time
-from keypoint2pose import d2tod3
-import hourglass
-from img_loader import get_training_image
-from osutils import Timer
+from .keypoint2pose import d2tod3
+from .hourglass import hg
+from .img_loader import get_training_image
+from .osutils import Timer
 
 def draw_keypoints(im, keypoints):
     for idx in range(keypoints.shape[1]):
@@ -34,7 +34,7 @@ def detect_keypoint_2d(model, im, flip=True, scales=[0.75, 1, 1.25], multi_scale
 
 def init_model(model_dir, num_stacks=2, num_blocks=1, num_classes=17):
 
-    model = hourglass.hg(
+    model = hg(
         num_stacks=num_stacks, 
         num_blocks=num_blocks, 
         num_classes=num_classes

@@ -1,10 +1,8 @@
-from __future__ import absolute_import
-
 import torch
 import torch.nn as nn
 import numpy as np
 import scipy.misc
-from craves_control.misc import *
+from .misc import *
 
 def im_to_numpy(img):
     img = to_numpy(img)

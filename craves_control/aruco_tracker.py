@@ -84,7 +84,6 @@ def get_relative(frame):
         for i in range(0, ids.size):
             # draw axis for the aruco markers
             aruco.drawAxis(frame, mtx, dist, rvec[i], tvec[i], 0.1)
-            # print (rvec)
             R = euler_matrix(rvec[i][0][0], rvec[i][0][1], rvec[i][0][2])
             T = translation_matrix(tvec[i][0])
             if ids[i][0] == 1:
@@ -98,6 +97,7 @@ def get_relative(frame):
             xyz_cam = target_pos - base_pos
             xyz = np.dot(cam2base[:3, :3], xyz_cam)
             xyz_new = [xyz[1], xyz[0], xyz[2]]
+            # xyz_new = [xyz[0], -xyz[2], xyz[1]]
 
         # draw a square around the markers
         aruco.drawDetectedMarkers(frame, corners)
