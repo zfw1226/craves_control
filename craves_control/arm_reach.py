@@ -8,6 +8,7 @@ from pose_estimator import PoseEstimater
 from craves_control.hardware import usb_arm
 import matplotlib.pyplot as plt
 from numpy import sin, cos, pi
+from craves_control.aruco_tracker import get_relative
 
 class Arm_Reach(gym.Env):
     def __init__(self,
@@ -44,6 +45,7 @@ class Arm_Reach(gym.Env):
         self.count_eps = 0
         self.yaws_id = 0
         self.position_id = 0
+        self.auto = True
 
     def step(self, action):
             info = dict(
@@ -96,13 +98,21 @@ class Arm_Reach(gym.Env):
 
     def reset(self, ):
         self.PE.reset()
-        self.pose_last, good, img_rgb = self.moveto([0, 0, 0, 0], 1000, 5, 0.07)
+        self.pose_last, good, img = self.moveto([0, 0, 0, 0], 1000, 5, 0.07)
         time.sleep(3)
         self.PE.reset()
         self.count_steps = 0
-        self.target_pose = [self.yaws[self.count_eps/3 % 3],
-                            self.length[self.count_eps % 3],
-                            self.heights[self.count_eps % 3]]
+        if self.auto:
+            self.target_pose = [self.yaws[self.count_eps/3 % 3],
+                                self.length[self.count_eps % 3],
+                                self.heights[self.count_eps % 3]]
+        else:
+            xyz_goal = None
+            while xyz_goal == None:
+                img = self.cam.getframe()
+                xyz_goal = get_relative(img)
+            xyz_goal = [xyz_goal[0], xyz_goal[1]-225, 50]
+            self.target_pose = self.xyz2trz(xyz_goal)
         self.target_location = self.trz2xyz(self.target_pose)
         print('Start with target pose: ', str(self.target_pose), 'Target: ', str(self.target_location))
         state = np.concatenate((np.append(self.pose_last, 0), self.target_pose, np.zeros(4)))
@@ -119,7 +129,9 @@ class Arm_Reach(gym.Env):
         self.arm_ctl.stop()
 
     def seed(self, seed=None):
-        print('fake seed')
+        if seed != None:
+            self.auto = False
+            self.target_pose = self.xyz2trz(seed)
 
     def get_action_size(self):
         return len(self.action)
@@ -170,7 +182,7 @@ class Arm_Reach(gym.Env):
                 self.arm_ctl.pwm_ctl(action, t)
             else:
                 break
-        return pose, good, img_rgb
+        return pose, good, img
 
     def angle2tip(self, angles, l1=89.68, l2=113.58, l3=75.0, h1=37.66):
 
@@ -205,3 +217,7 @@ class Arm_Reach(gym.Env):
         import craves_control
         absdir = os.path.join(os.path.dirname(craves_control.__file__), filename)
         return absdir
+
+    def set_goal(self, xyz):
+        self.auto = False
+        self.target_pose = self.xyz2trz(xyz)
