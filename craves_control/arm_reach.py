@@ -111,7 +111,8 @@ class Arm_Reach(gym.Env):
             while xyz_goal == None:
                 img = self.cam.getframe()
                 xyz_goal = get_relative(img)
-            xyz_goal = [xyz_goal[0], xyz_goal[1]-225, 50]
+            print(xyz_goal)
+            xyz_goal = [xyz_goal[0]*1000, xyz_goal[1]*1000-225, 50]
             self.target_pose = self.xyz2trz(xyz_goal)
         self.target_location = self.trz2xyz(self.target_pose)
         print('Start with target pose: ', str(self.target_pose), 'Target: ', str(self.target_location))
@@ -131,7 +132,7 @@ class Arm_Reach(gym.Env):
     def seed(self, seed=None):
         if seed != None:
             self.auto = False
-            self.target_pose = self.xyz2trz(seed)
+            # self.target_pose = self.xyz2trz(seed)
 
     def get_action_size(self):
         return len(self.action)

@@ -97,7 +97,7 @@ def get_relative(frame):
             target_pos = translation_from_matrix(cam2target)
             xyz_cam = target_pos - base_pos
             xyz = np.dot(cam2base[:3, :3], xyz_cam)
-            xyz_new = [xyz[2], xyz[0], xyz[1]]*1000
+            xyz_new = [xyz[1], xyz[0], xyz[2]]
 
         # draw a square around the markers
         aruco.drawDetectedMarkers(frame, corners)
