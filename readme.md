@@ -47,14 +47,14 @@ The policy network is trained by [DDPG](https://arxiv.org/abs/1509.02971), a con
 Firstly, you can evaluate the policy network in virtual environment, running:
 ```
 cd ddpg
-python main.py --gpu-ids 0 --rescale --test --env RealArm --model-dir models/best.pt 
+python main.py --gpu-ids 0 --rescale --test --env UnrealArm-ContinuousPose-v1 --model-dir models/best.pt
 ```
 After that, the arm will move to nine points sequentially, as:
 ![reach-virtual](./figs/reach-virtual.gif)
 
 If your hardware is ready, you can run the pose estimator and RL controller jointly:
 ```bash
-python main.py --gpu-ids 0 --rescale --test --env UnrealArm-ContinuousPose-v1 --model-dir models/best.pt
+python main.py --gpu-ids 0 --rescale --test --env RealArm --model-dir models/best.pt 
 ```
 After running, the arm will automatically move to an initial position at first, 
 and then reach a set of points one by one, as:
