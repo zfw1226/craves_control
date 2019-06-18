@@ -9,8 +9,8 @@ import cv2
 import json
 import time
 
-from misc import *
-from imutils import *
+from craves_control.misc import *
+from craves_control.imutils import *
 
 
 def color_normalize(x, mean, std):
